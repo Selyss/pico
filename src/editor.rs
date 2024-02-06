@@ -312,7 +312,7 @@ impl Editor {
         let start = self.offset.x;
         let end = self.offset.x.saturating_add(width);
         let row = row.render(start, end);
-        println!("{}\r", row)
+        println!("{}\r", row);
     }
     #[allow(clippy::integer_division, clippy::integer_arithmetic)]
     fn draw_rows(&self) {
