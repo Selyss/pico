@@ -40,10 +40,19 @@ impl Document {
     pub fn len(&self) -> usize {
         self.rows.len()
     }
-    fn indent_level(&self, at: &Position) -> usize {
+
+    pub fn indent_level(&self, at: &Position) -> usize {
         let current_row = &self.rows[at.y];
         // definitely a bug with tabs vs spaces
         todo!()
+    }
+
+    pub fn insert_tab(&mut self, at: &Position) {
+        // HACK: !
+        self.insert(at, ' ');
+        self.insert(at, ' ');
+        self.insert(at, ' ');
+        self.insert(at, ' ');
     }
 
     fn insert_newline(&mut self, at: &Position) {

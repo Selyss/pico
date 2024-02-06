@@ -189,6 +189,14 @@ impl Editor {
     fn process_keypress(&mut self) -> Result<(), std::io::Error> {
         let pressed_key = Terminal::read_key()?;
         match pressed_key {
+            Key::Char('\t') => {
+                self.document.insert_tab(&self.cursor_position);
+                // HACK: !!?!>,.,./
+                self.move_cursor(Key::Right);
+                self.move_cursor(Key::Right);
+                self.move_cursor(Key::Right);
+                self.move_cursor(Key::Right);
+            }
             Key::Ctrl('q') => {
                 if self.quit_times > 0 && self.document.is_dirty() {
                     self.status_message = StatusMessage::from(format!(
