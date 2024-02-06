@@ -11,6 +11,7 @@ pub struct Row {
     highlighting: Vec<highlighting::Type>,
     pub is_highlighted: bool,
     len: usize,
+    // line_num: usize,
 }
 
 impl From<&str> for Row {

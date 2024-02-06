@@ -65,7 +65,7 @@ impl Editor {
     pub fn default() -> Self {
         let args: Vec<String> = env::args().collect();
         let mut initial_status =
-            String::from("HELP: Ctrl-F = find | Ctrl-S = save | Ctrl-Q = quit");
+            String::from("HELP: Ctrl-D = jump down | Ctrl-U = jump up | Ctrl-F = find | Ctrl-S = save | Ctrl-Q = quit");
 
         let document = if let Some(file_name) = args.get(1) {
             let doc = Document::open(file_name);
@@ -117,6 +117,21 @@ impl Editor {
         Terminal::cursor_show();
         Terminal::flush()
     }
+    fn jump_down(&mut self) {
+        if self.cursor_position.y + 20 > self.document.len() {
+            self.cursor_position.y = self.document.len() - 1; // minus 1 is due to offset
+            return;
+        }
+        self.cursor_position.y += 20;
+    }
+    fn jump_up(&mut self) {
+        if self.cursor_position.y < 20 {
+            self.cursor_position.y = 0;
+            return;
+        }
+        self.cursor_position.y -= 20;
+    }
+
     fn save(&mut self) {
         if self.document.file_name.is_none() {
             let new_name = self.prompt("Save as: ", |_, _, _| {}).unwrap_or(None);
@@ -187,6 +202,8 @@ impl Editor {
             }
             Key::Ctrl('s') => self.save(),
             Key::Ctrl('f') => self.search(),
+            Key::Ctrl('d') => self.jump_down(),
+            Key::Ctrl('u') => self.jump_up(),
             Key::Char(c) => {
                 self.document.insert(&self.cursor_position, c);
                 self.move_cursor(Key::Right);
