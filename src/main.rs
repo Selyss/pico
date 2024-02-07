@@ -7,6 +7,7 @@
     clippy::wildcard_enum_match_arm,
     clippy::else_if_without_else
 )]
+mod config;
 mod document;
 mod editor;
 mod filetype;
@@ -24,4 +25,5 @@ pub use terminal::Terminal;
 
 fn main() {
     Editor::default().run();
+    config::get_config(None);
 }
