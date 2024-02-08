@@ -13,7 +13,7 @@ pub struct Config {
 struct TextActions {
     autopairs: bool, // TODO:
     expand_tab: bool,
-    space_expansion: u8,
+    space_expansion: Option<u8>,
 }
 
 // we dont support a cli flag for configs, so pretend it doesnt exist rn
