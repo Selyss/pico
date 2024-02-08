@@ -10,6 +10,7 @@ use std::time::Instant;
 use termion::color;
 use termion::event::Key;
 
+// TODO: make all these customizable
 const STATUS_FG_COLOR: color::Rgb = color::Rgb(63, 63, 63);
 const STATUS_BG_COLOR: color::Rgb = color::Rgb(239, 239, 239);
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -40,6 +41,7 @@ impl StatusMessage {
 }
 
 pub struct Editor {
+    // TODO: should config be a part of this
     should_quit: bool,
     terminal: Terminal,
     cursor_position: Position,

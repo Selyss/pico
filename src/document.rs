@@ -42,12 +42,15 @@ impl Document {
         self.rows.len()
     }
 
+    // TODO: implement
     pub fn indent_level(&self, at: &Position) -> usize {
         let current_row = &self.rows[at.y];
         // definitely a bug with tabs vs spaces
         todo!()
     }
 
+    // TODO: store tabs somehow so they can be deleted like tabs even if they are spaces, rename
+    // this too
     pub fn insert_tab(&mut self, at: &Position, spaces: u8) {
         for _ in 0..spaces {
             self.insert(at, ' ');

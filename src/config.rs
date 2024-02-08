@@ -13,13 +13,13 @@ pub struct Config {
 }
 #[derive(Debug, Deserialize)]
 pub struct Insert {
-    pub autopairs: bool, // TODO:
+    pub autopairs: bool, // TODO: implement this
     pub expand_tab: bool,
     pub space_expansion: Option<u8>,
 }
 
 // we dont support a cli flag for configs, so pretend it doesnt exist rn
-
+// TODO: refactor this entire thing and provide a default config
 fn get_config_file() -> Result<PathBuf> {
     let config = std::env::var("XDG_CONFIG_HOME").context("Unable to get $XDG_CONFIG_HOME")?;
 
