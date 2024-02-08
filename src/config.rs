@@ -6,6 +6,7 @@ use toml::Table;
 
 #[derive(Debug, Deserialize)]
 pub struct Config {
+    #[allow(dead_code)]
     text_actions: TextActions,
 }
 #[derive(Debug, Deserialize)]
@@ -29,7 +30,7 @@ fn get_config_file() -> Result<PathBuf> {
 
 pub fn get_config(config_file: Option<PathBuf>) {
     let default_path = PathBuf::from("wowow");
-    let config_file = get_config_file().unwrap_or(default_path); // FIXME: add default path for
+    let config_file = get_config_file().unwrap_or(default_path); // FIXME: add default config for
                                                                  // default file
     let toml_str = fs::read_to_string(config_file).expect("Failed to read pico.toml config");
 

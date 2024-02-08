@@ -25,5 +25,4 @@ pub use terminal::Terminal;
 
 fn main() {
     Editor::default().run();
-    config::get_config(None);
 }
