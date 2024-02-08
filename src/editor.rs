@@ -1,3 +1,5 @@
+use crate::config;
+use crate::config::get_config;
 use crate::Config;
 use crate::Document;
 use crate::Row;
@@ -87,7 +89,8 @@ impl Editor {
             cursor_position: Position::default(),
             offset: Position::default(),
             status_message: StatusMessage::from(initial_status),
-            quit_times: QUIT_TIMES,
+            quit_times: config::get_config(None).quit_amount,
+            config: get_config(None),
             highlighted_word: None,
         }
     }
@@ -234,8 +237,8 @@ impl Editor {
             _ => (),
         }
         self.scroll();
-        if self.quit_times < QUIT_TIMES {
-            self.quit_times = QUIT_TIMES;
+        if self.quit_times < self.config.quit_amount {
+            self.quit_times = self.config.quit_amount;
             self.status_message = StatusMessage::from(String::new());
         }
         Ok(())

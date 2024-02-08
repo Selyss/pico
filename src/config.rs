@@ -8,13 +8,13 @@ use toml::Table;
 pub struct Config {
     #[allow(dead_code)]
     insert: Insert,
+    pub quit_amount: u8,
 }
 #[derive(Debug, Deserialize)]
 struct Insert {
     autopairs: bool, // TODO:
     expand_tab: bool,
     space_expansion: Option<u8>,
-    quit_amount: u8,
 }
 
 // we dont support a cli flag for configs, so pretend it doesnt exist rn
@@ -29,7 +29,7 @@ fn get_config_file() -> Result<PathBuf> {
     return Ok(config);
 }
 
-pub fn get_config(config_file: Option<PathBuf>) {
+pub fn get_config(config_file: Option<PathBuf>) -> Config {
     let default_path = PathBuf::from("wowow");
     let config_file = get_config_file().unwrap_or(default_path); // FIXME: add default config for
                                                                  // default file
@@ -37,5 +37,5 @@ pub fn get_config(config_file: Option<PathBuf>) {
 
     let pico_toml: Config = toml::from_str(&toml_str).expect("Failed to deserialize pico.toml");
 
-    println!("{:#?}", pico_toml);
+    return pico_toml;
 }
