@@ -89,7 +89,7 @@ impl Editor {
             cursor_position: Position::default(),
             offset: Position::default(),
             status_message: StatusMessage::from(initial_status),
-            quit_times: config::get_config(None).quit_amount,
+            quit_times: get_config(None).quit_amount,
             config: get_config(None),
             highlighted_word: None,
         }
@@ -193,12 +193,17 @@ impl Editor {
         let pressed_key = Terminal::read_key()?;
         match pressed_key {
             Key::Char('\t') => {
-                self.document.insert_tab(&self.cursor_position);
-                // HACK: !!?!>,.,./
-                self.move_cursor(Key::Right);
-                self.move_cursor(Key::Right);
-                self.move_cursor(Key::Right);
-                self.move_cursor(Key::Right);
+                if let Some(space_expansion) = self.config.insert.space_expansion {
+                    self.document.insert_tab(
+                        &self.cursor_position,
+                        self.config.insert.space_expansion.unwrap(),
+                    );
+
+                    // safe to unwrap (trust me bro)
+                    for i in 0..self.config.insert.space_expansion.unwrap() {
+                        self.move_cursor(Key::Right);
+                    }
+                }
             }
             Key::Ctrl('q') => {
                 if self.quit_times > 0 && self.document.is_dirty() {

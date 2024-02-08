@@ -4,17 +4,18 @@ use std::fs;
 use std::path::PathBuf;
 use toml::Table;
 
+// FIXME: find a better way to access these globally
 #[derive(Debug, Deserialize)]
 pub struct Config {
     #[allow(dead_code)]
-    insert: Insert,
+    pub insert: Insert,
     pub quit_amount: u8,
 }
 #[derive(Debug, Deserialize)]
-struct Insert {
-    autopairs: bool, // TODO:
-    expand_tab: bool,
-    space_expansion: Option<u8>,
+pub struct Insert {
+    pub autopairs: bool, // TODO:
+    pub expand_tab: bool,
+    pub space_expansion: Option<u8>,
 }
 
 // we dont support a cli flag for configs, so pretend it doesnt exist rn

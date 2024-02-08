@@ -1,3 +1,4 @@
+use crate::Config;
 use crate::FileType;
 use crate::Position;
 use crate::Row;
@@ -47,12 +48,10 @@ impl Document {
         todo!()
     }
 
-    pub fn insert_tab(&mut self, at: &Position) {
-        // HACK: !
-        self.insert(at, ' ');
-        self.insert(at, ' ');
-        self.insert(at, ' ');
-        self.insert(at, ' ');
+    pub fn insert_tab(&mut self, at: &Position, spaces: u8) {
+        for _ in 0..spaces {
+            self.insert(at, ' ');
+        }
     }
 
     fn insert_newline(&mut self, at: &Position) {
