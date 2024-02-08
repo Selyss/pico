@@ -1,3 +1,4 @@
+use crate::Config;
 use crate::Document;
 use crate::Row;
 use crate::Terminal;
@@ -10,7 +11,6 @@ use termion::event::Key;
 const STATUS_FG_COLOR: color::Rgb = color::Rgb(63, 63, 63);
 const STATUS_BG_COLOR: color::Rgb = color::Rgb(239, 239, 239);
 const VERSION: &str = env!("CARGO_PKG_VERSION");
-const QUIT_TIMES: u8 = 3;
 
 #[derive(PartialEq, Copy, Clone)]
 pub enum SearchDirection {
@@ -46,6 +46,7 @@ pub struct Editor {
     status_message: StatusMessage,
     quit_times: u8,
     highlighted_word: Option<String>,
+    config: Config,
 }
 
 impl Editor {

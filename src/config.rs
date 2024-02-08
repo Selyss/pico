@@ -14,6 +14,7 @@ struct Insert {
     autopairs: bool, // TODO:
     expand_tab: bool,
     space_expansion: Option<u8>,
+    quit_amount: u8,
 }
 
 // we dont support a cli flag for configs, so pretend it doesnt exist rn

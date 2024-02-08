@@ -14,6 +14,7 @@ mod filetype;
 mod highlighting;
 mod row;
 mod terminal;
+pub use config::Config;
 pub use document::Document;
 use editor::Editor;
 pub use editor::Position;
