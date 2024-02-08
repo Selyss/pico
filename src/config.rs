@@ -7,10 +7,10 @@ use toml::Table;
 #[derive(Debug, Deserialize)]
 pub struct Config {
     #[allow(dead_code)]
-    text_actions: TextActions,
+    insert: Insert,
 }
 #[derive(Debug, Deserialize)]
-struct TextActions {
+struct Insert {
     autopairs: bool, // TODO:
     expand_tab: bool,
     space_expansion: Option<u8>,
