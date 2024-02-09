@@ -91,7 +91,6 @@ impl Editor {
             offset: Position::default(),
             status_message: StatusMessage::from(initial_status),
             quit_times: CONFIG_MANAGER.get_config().quit_amount,
-            config: CONFIG_MANAGER.get_config(),
             highlighted_word: None,
         }
     }
@@ -190,14 +189,14 @@ impl Editor {
         let pressed_key = Terminal::read_key()?;
         match pressed_key {
             Key::Char('\t') => {
-                if let Some(space_expansion) = self.config.insert.space_expansion {
+                if CONFIG_MANAGER.get_config().insert.space_expansion.is_some() {
                     self.document.insert_tab(
                         &self.cursor_position,
-                        self.config.insert.space_expansion.unwrap(),
+                        CONFIG_MANAGER.get_config().insert.space_expansion.unwrap(),
                     );
 
                     // safe to unwrap (trust me bro)
-                    for i in 0..self.config.insert.space_expansion.unwrap() {
+                    for _ in 0..CONFIG_MANAGER.get_config().insert.space_expansion.unwrap() {
                         self.move_cursor(Key::Right);
                     }
                 }
@@ -239,8 +238,8 @@ impl Editor {
             _ => (),
         }
         self.scroll();
-        if self.quit_times < self.config.quit_amount {
-            self.quit_times = self.config.quit_amount;
+        if self.quit_times < CONFIG_MANAGER.get_config().quit_amount {
+            self.quit_times = CONFIG_MANAGER.get_config().quit_amount;
             self.status_message = StatusMessage::from(String::new());
         }
         Ok(())
