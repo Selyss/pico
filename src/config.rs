@@ -5,6 +5,7 @@ use std::path::PathBuf;
 use toml::Table;
 
 // FIXME: find a better way to access these globally
+// TODO: make config fields better
 #[derive(Debug, Deserialize)]
 pub struct Config {
     #[allow(dead_code)]
