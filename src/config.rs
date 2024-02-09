@@ -10,7 +10,7 @@ use toml::Table;
 pub struct EditorConfig {
     #[allow(dead_code)]
     pub insert: Insert,
-    pub quit_amount: u8,
+    pub additional_quit_amount: u8,
 }
 #[derive(Debug, Deserialize)]
 pub struct Insert {
@@ -28,14 +28,14 @@ impl EditorConfig {
                 expand_tab: true,
                 space_expansion: Some(2),
             },
-            quit_amount: 3,
+            additional_quit_amount: 3,
         }
     }
 
     pub fn new(insert: Insert, quit_amount: u8) -> Self {
         EditorConfig {
             insert,
-            quit_amount,
+            additional_quit_amount: quit_amount,
         }
     }
 }

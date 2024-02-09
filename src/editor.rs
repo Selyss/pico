@@ -90,7 +90,7 @@ impl Editor {
             cursor_position: Position::default(),
             offset: Position::default(),
             status_message: StatusMessage::from(initial_status),
-            quit_times: CONFIG_MANAGER.get_config().quit_amount,
+            quit_times: CONFIG_MANAGER.get_config().additional_quit_amount,
             highlighted_word: None,
         }
     }
@@ -238,8 +238,8 @@ impl Editor {
             _ => (),
         }
         self.scroll();
-        if self.quit_times < CONFIG_MANAGER.get_config().quit_amount {
-            self.quit_times = CONFIG_MANAGER.get_config().quit_amount;
+        if self.quit_times < CONFIG_MANAGER.get_config().additional_quit_amount {
+            self.quit_times = CONFIG_MANAGER.get_config().additional_quit_amount;
             self.status_message = StatusMessage::from(String::new());
         }
         Ok(())
