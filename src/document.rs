@@ -1,4 +1,3 @@
-use crate::Config;
 use crate::FileType;
 use crate::Position;
 use crate::Row;
@@ -68,24 +67,24 @@ impl Document {
         #[allow(clippy::indexing_slicing)]
         let current_row = &mut self.rows[at.y];
         let new_row = current_row.split(at.x);
-        #[allow(clippy::integer_arithmetic)]
+        #[allow(clippy::arithmetic_side_effects)]
         self.rows.insert(at.y + 1, new_row);
     }
-    pub fn insert(&mut self, at: &Position, c: char) {
+    pub fn insert(&mut self, at: &Position, ch: char) {
         if at.y > self.rows.len() {
             return;
         }
         self.dirty = true;
-        if c == '\n' {
+        if ch == '\n' {
             self.insert_newline(at);
         } else if at.y == self.rows.len() {
             let mut row = Row::default();
-            row.insert(0, c);
+            row.insert(0, ch);
             self.rows.push(row);
         } else {
             #[allow(clippy::indexing_slicing)]
             let row = &mut self.rows[at.y];
-            row.insert(at.x, c);
+            row.insert(at.x, ch);
         }
         self.unhighlight_rows(at.y);
     }
@@ -96,7 +95,7 @@ impl Document {
             row.is_highlighted = false;
         }
     }
-    #[allow(clippy::integer_arithmetic, clippy::indexing_slicing)]
+    #[allow(clippy::arithmetic_side_effects, clippy::indexing_slicing)]
     pub fn delete(&mut self, at: &Position) {
         let len = self.rows.len();
         if at.y >= len {

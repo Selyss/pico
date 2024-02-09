@@ -1,12 +1,10 @@
-use crate::config;
 use crate::config::get_config;
 use crate::Config;
 use crate::Document;
 use crate::Row;
 use crate::Terminal;
 use std::env;
-use std::time::Duration;
-use std::time::Instant;
+use std::time::{Duration, Instant};
 use termion::color;
 use termion::event::Key;
 
@@ -123,18 +121,14 @@ impl Editor {
         Terminal::flush()
     }
     fn jump_down(&mut self) {
-        if self.cursor_position.y + 20 > self.document.len() {
-            self.cursor_position.y = self.document.len() - 1; // minus 1 is due to offset
+        if self.cursor_position.y.saturating_add(20) > self.document.len() {
+            self.cursor_position.y = self.document.len().saturating_sub(1); // minus 1 is due to offset
             return;
         }
-        self.cursor_position.y += 20;
+        self.cursor_position.y = self.cursor_position.y.saturating_add(20);
     }
     fn jump_up(&mut self) {
-        if self.cursor_position.y < 20 {
-            self.cursor_position.y = 0;
-            return;
-        }
-        self.cursor_position.y -= 20;
+        self.cursor_position.y = self.cursor_position.y.saturating_sub(20);
     }
 
     fn save(&mut self) {
