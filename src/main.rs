@@ -14,7 +14,7 @@ mod filetype;
 mod highlighting;
 mod row;
 mod terminal;
-pub use config::Config;
+pub use config::EditorConfig;
 pub use document::Document;
 use editor::Editor;
 pub use editor::Position;
@@ -26,5 +26,4 @@ pub use terminal::Terminal;
 
 fn main() {
     Editor::default().run();
-    config::get_config(None);
 }

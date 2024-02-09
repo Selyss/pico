@@ -1,8 +1,8 @@
-use crate::config::get_config;
-use crate::Config;
-use crate::Document;
+use crate::config::CONFIG_MANAGER;
+use crate::EditorConfig;
 use crate::Row;
 use crate::Terminal;
+use crate::{config::get_config, Document};
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
@@ -48,7 +48,7 @@ pub struct Editor {
     status_message: StatusMessage,
     quit_times: u8,
     highlighted_word: Option<String>,
-    config: Config,
+    config: EditorConfig,
 }
 
 impl Editor {
@@ -69,6 +69,9 @@ impl Editor {
         let args: Vec<String> = env::args().collect();
         let mut initial_status =
             String::from("HELP: Ctrl-D = jump down | Ctrl-U = jump up | Ctrl-F = find | Ctrl-S = save | Ctrl-Q = quit");
+
+        let config = CONFIG_MANAGER.get_config();
+        println!("Current config: {:?}", config);
 
         let document = if let Some(file_name) = args.get(1) {
             let doc = Document::open(file_name);
