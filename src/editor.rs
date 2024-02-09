@@ -1,8 +1,7 @@
 use crate::config::CONFIG_MANAGER;
-use crate::EditorConfig;
+use crate::Document;
 use crate::Row;
 use crate::Terminal;
-use crate::{config, Document};
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
