@@ -2,7 +2,7 @@ use crate::config::CONFIG_MANAGER;
 use crate::EditorConfig;
 use crate::Row;
 use crate::Terminal;
-use crate::{config::get_config, Document};
+use crate::{config, Document};
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
@@ -39,7 +39,6 @@ impl StatusMessage {
 }
 
 pub struct Editor {
-    // TODO: should config be a part of this
     should_quit: bool,
     terminal: Terminal,
     cursor_position: Position,
@@ -48,7 +47,6 @@ pub struct Editor {
     status_message: StatusMessage,
     quit_times: u8,
     highlighted_word: Option<String>,
-    config: EditorConfig,
 }
 
 impl Editor {
@@ -92,8 +90,8 @@ impl Editor {
             cursor_position: Position::default(),
             offset: Position::default(),
             status_message: StatusMessage::from(initial_status),
-            quit_times: get_config(None).quit_amount,
-            config: get_config(None),
+            quit_times: CONFIG_MANAGER.get_config().quit_amount,
+            config: CONFIG_MANAGER.get_config(),
             highlighted_word: None,
         }
     }
