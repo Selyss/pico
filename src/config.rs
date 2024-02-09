@@ -20,6 +20,18 @@ pub struct Insert {
 }
 
 impl EditorConfig {
+    // default config
+    pub fn default() -> Self {
+        EditorConfig {
+            insert: Insert {
+                autopairs: true,
+                expand_tab: true,
+                space_expansion: Some(2),
+            },
+            quit_amount: 3,
+        }
+    }
+
     pub fn new(insert: Insert, quit_amount: u8) -> Self {
         EditorConfig {
             insert,
@@ -48,30 +60,16 @@ impl ConfigManager {
 
         let config_path = user_home.join(".config/pico.toml");
 
-        let config = if let Ok(config_contents) = fs::read_to_string(&config_path) {
+        let config = if let Ok(config_contents) = fs::read_to_string(config_path) {
             if let Ok(config) = toml::from_str::<EditorConfig>(&config_contents) {
                 config
             } else {
                 eprintln!("Failed to deserialize config. Using default config.");
-                EditorConfig::new(
-                    Insert {
-                        autopairs: true,
-                        expand_tab: true,
-                        space_expansion: Some(4),
-                    },
-                    2,
-                )
+                EditorConfig::default()
             }
         } else {
             eprintln!("Failed to read the config file. Using default config.");
-            EditorConfig::new(
-                Insert {
-                    autopairs: true,
-                    expand_tab: true,
-                    space_expansion: Some(2),
-                },
-                3,
-            )
+            EditorConfig::default()
         };
 
         ConfigManager { config }
