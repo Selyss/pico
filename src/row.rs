@@ -305,10 +305,10 @@ impl Row {
         &mut self,
         index: &mut usize,
         opts: &HighlightingOptions,
-        c: char,
+        ch: char,
         chars: &[char],
     ) -> bool {
-        if opts.comments() && c == '/' && *index < chars.len() {
+        if opts.comments() && ch == '/' && *index < chars.len() {
             if let Some(next_char) = chars.get(index.saturating_add(1)) {
                 if *next_char == '/' {
                     for _ in *index..chars.len() {

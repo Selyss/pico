@@ -418,9 +418,9 @@ impl Editor {
             match key {
                 Key::Backspace => result.truncate(result.len().saturating_sub(1)),
                 Key::Char('\n') => break,
-                Key::Char(c) => {
-                    if !c.is_control() {
-                        result.push(c);
+                Key::Char(ch) => {
+                    if !ch.is_control() {
+                        result.push(ch);
                     }
                 }
                 Key::Esc => {
