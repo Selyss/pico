@@ -12,3 +12,5 @@ toml = "0.8.10"
 unicode-segmentation = "1"
 serde = { version = "1.0.196", features = ["derive"] }
 lazy_static = "1.4.0"
+dirs = "5.0.1"
+colorsys = "0.6.7"

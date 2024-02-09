@@ -48,8 +48,7 @@ pub struct ConfigManager {
 impl ConfigManager {
     // default values
     pub fn default() -> Self {
-        // FIXME: deprecated
-        let user_home = match env::home_dir() {
+        let user_home = match dirs::home_dir() {
             Some(path) => path,
             None => {
                 // FIXME: do we exit or do we just give the default config?
