@@ -218,7 +218,7 @@ impl Editor {
             Key::Ctrl('u') => self.jump_up(),
             Key::Char(ch) => {
                 if CONFIG_MANAGER.get_config().insert.autopairs {
-                    self.document.insert_pair(&self.cursor_position, ch);
+                    self.document.insert_pair(&self.cursor_position, ch)
                 } else {
                     self.document.insert(&self.cursor_position, ch);
                     self.move_cursor(Key::Right);
