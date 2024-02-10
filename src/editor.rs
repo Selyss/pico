@@ -5,6 +5,7 @@ use crate::Terminal;
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
+use termion::event::parse_event;
 use termion::event::Key;
 
 // TODO: make all these customizable
@@ -209,15 +210,19 @@ impl Editor {
                     self.quit_times -= 1;
                     return Ok(());
                 }
-                self.should_quit = true
+                self.should_quit = true;
             }
             Key::Ctrl('s') => self.save(),
             Key::Ctrl('f') => self.search(),
             Key::Ctrl('d') => self.jump_down(),
             Key::Ctrl('u') => self.jump_up(),
-            Key::Char(c) => {
-                self.document.insert(&self.cursor_position, c);
-                self.move_cursor(Key::Right);
+            Key::Char(ch) => {
+                if CONFIG_MANAGER.get_config().insert.autopairs {
+                    self.document.insert_pair(&self.cursor_position, ch);
+                } else {
+                    self.document.insert(&self.cursor_position, ch);
+                    self.move_cursor(Key::Right);
+                }
             }
             Key::Delete => self.document.delete(&self.cursor_position),
             Key::Backspace => {
