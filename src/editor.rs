@@ -391,8 +391,15 @@ impl Editor {
         status.push_str(&" ".repeat(width.saturating_sub(len)));
         status = format!("{}{}", status, line_indicator);
         status.truncate(width);
-        Terminal::set_bg_color(STATUS_BG_COLOR);
-        Terminal::set_fg_color(STATUS_FG_COLOR);
+        let fg = CONFIG_MANAGER.get_config().colors.status_fg_color;
+        let bg = CONFIG_MANAGER.get_config().colors.status_bg_color;
+
+        // HACK: shouldnt unwrap here.
+        let fg = u8_array_to_rgb(fg.unwrap());
+        let bg = u8_array_to_rgb(bg.unwrap());
+
+        Terminal::set_fg_color(fg);
+        Terminal::set_bg_color(bg);
         println!("{}\r", status);
         Terminal::reset_fg_color();
         Terminal::reset_bg_color();
@@ -437,6 +444,10 @@ impl Editor {
         }
         Ok(Some(result))
     }
+}
+
+fn u8_array_to_rgb(array: [u8; 3]) -> color::Rgb {
+    color::Rgb(array[0], array[1], array[2])
 }
 
 fn die(e: std::io::Error) {

@@ -1,6 +1,5 @@
 use serde::Deserialize;
 use std::fs;
-use termion::color;
 
 // TODO: add more fields for ui
 #[derive(Debug, Deserialize)]
@@ -11,10 +10,12 @@ pub struct EditorConfig {
     pub colors: Colors,
 }
 
+// TODO: add cursor style options, its in termion
+
 #[derive(Debug, Deserialize)]
 pub struct Colors {
-    pub status_fg_color: Option<color::Rgb>,
-    pub status_bg_color: Option<color::Rgb>,
+    pub status_fg_color: Option<[u8; 3]>,
+    pub status_bg_color: Option<[u8; 3]>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -35,8 +36,8 @@ impl EditorConfig {
             },
             additional_quit_amount: 3,
             colors: Colors {
-                status_fg_color: Some(color::Rgb(63, 63, 63)),
-                status_bg_color: Some(color::Rgb(239, 239, 239)),
+                status_fg_color: Some([63, 63, 63]),
+                status_bg_color: Some([239, 239, 239]),
             },
         }
     }
