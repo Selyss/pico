@@ -89,9 +89,6 @@ impl Document {
             let mut row = Row::default();
             row.insert(0, ch);
             self.rows.push(row);
-        } else if ch == '(' || ch == '{' {
-            // FIXME: replicating code here and in the function
-            self.insert_pair(at, ch);
         } else {
             #[allow(clippy::indexing_slicing)]
             let row = &mut self.rows[at.y];
