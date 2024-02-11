@@ -14,7 +14,7 @@ pub struct EditorConfig {
 }
 #[derive(Debug, Deserialize)]
 pub struct Insert {
-    pub autopairs: bool, // TODO: implement this
+    pub autopairs: bool,
     pub expand_tab: bool,
     pub space_expansion: Option<u8>,
 }

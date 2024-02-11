@@ -41,17 +41,14 @@ impl Document {
         self.rows.len()
     }
 
-    // TODO: implement
-    pub fn indent_level(&self, at: &Position) -> usize {
-        let current_row = &self.rows[at.y];
-        // definitely a bug with tabs vs spaces
-        todo!()
-    }
-
     pub fn insert_pair(&mut self, at: &Position, pair: char) {
         match pair {
             '(' => self.insert(at, ')'),
             '{' => self.insert(at, '}'),
+            '[' => self.insert(at, ']'),
+            '"' => self.insert(at, '"'),
+            '\'' => self.insert(at, '\''),
+            '`' => self.insert(at, '`'),
             _ => (),
         }
     }
@@ -64,6 +61,7 @@ impl Document {
         }
     }
 
+    // TODO: implement indent level
     fn insert_newline(&mut self, at: &Position) {
         if at.y > self.rows.len() {
             return;

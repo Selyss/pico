@@ -5,7 +5,6 @@ use crate::Terminal;
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
-use termion::event::parse_event;
 use termion::event::Key;
 
 // TODO: make all these customizable
@@ -220,7 +219,7 @@ impl Editor {
                 self.document.insert(&self.cursor_position, ch);
                 self.move_cursor(Key::Right);
                 if CONFIG_MANAGER.get_config().insert.autopairs {
-                    self.document.insert_pair(&self.cursor_position, ch)
+                    self.document.insert_pair(&self.cursor_position, ch);
                 }
             }
             Key::Delete => self.document.delete(&self.cursor_position),

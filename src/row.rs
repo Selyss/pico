@@ -38,7 +38,7 @@ impl Row {
             .skip(start)
             .take(end - start)
         {
-            if let Some(c) = grapheme.chars().next() {
+            if let Some(ch) = grapheme.chars().next() {
                 let highlighting_type = self
                     .highlighting
                     .get(index)
@@ -49,10 +49,10 @@ impl Row {
                         format!("{}", termion::color::Fg(highlighting_type.to_color()));
                     result.push_str(&start_highlight[..]);
                 }
-                if c == '\t' {
+                if ch == '\t' {
                     result.push_str(" ");
                 } else {
-                    result.push(c);
+                    result.push(ch);
                 }
             }
         }
@@ -66,9 +66,9 @@ impl Row {
     pub fn is_empty(&self) -> bool {
         self.len == 0
     }
-    pub fn insert(&mut self, at: usize, c: char) {
+    pub fn insert(&mut self, at: usize, ch: char) {
         if at >= self.len() {
-            self.string.push(c);
+            self.string.push(ch);
             self.len += 1;
             return;
         }
@@ -78,7 +78,7 @@ impl Row {
             length += 1;
             if index == at {
                 length += 1;
-                result.push(c);
+                result.push(ch);
             }
             result.push_str(grapheme);
         }
@@ -277,10 +277,10 @@ impl Row {
         &mut self,
         index: &mut usize,
         opts: &HighlightingOptions,
-        c: char,
+        ch: char,
         chars: &[char],
     ) -> bool {
-        if opts.characters() && c == '\'' {
+        if opts.characters() && ch == '\'' {
             if let Some(next_char) = chars.get(index.saturating_add(1)) {
                 let closing_index = if *next_char == '\\' {
                     index.saturating_add(3)
@@ -326,10 +326,10 @@ impl Row {
         &mut self,
         index: &mut usize,
         opts: &HighlightingOptions,
-        c: char,
+        ch: char,
         chars: &[char],
     ) -> bool {
-        if opts.comments() && c == '/' && *index < chars.len() {
+        if opts.comments() && ch == '/' && *index < chars.len() {
             if let Some(next_char) = chars.get(index.saturating_add(1)) {
                 if *next_char == '*' {
                     let closing_index =
@@ -353,10 +353,10 @@ impl Row {
         &mut self,
         index: &mut usize,
         opts: &HighlightingOptions,
-        c: char,
+        ch: char,
         chars: &[char],
     ) -> bool {
-        if opts.strings() && c == '"' {
+        if opts.strings() && ch == '"' {
             loop {
                 self.highlighting.push(highlighting::Type::String);
                 *index += 1;
@@ -378,10 +378,10 @@ impl Row {
         &mut self,
         index: &mut usize,
         opts: &HighlightingOptions,
-        c: char,
+        ch: char,
         chars: &[char],
     ) -> bool {
-        if opts.numbers() && c.is_ascii_digit() {
+        if opts.numbers() && ch.is_ascii_digit() {
             if *index > 0 {
                 #[allow(clippy::indexing_slicing, clippy::integer_arithmetic)]
                 let prev_char = chars[*index - 1];
@@ -464,8 +464,8 @@ impl Row {
     }
 }
 
-fn is_separator(c: char) -> bool {
-    c.is_ascii_punctuation() || c.is_ascii_whitespace()
+fn is_separator(ch: char) -> bool {
+    ch.is_ascii_punctuation() || ch.is_ascii_whitespace()
 }
 
 #[cfg(test)]
