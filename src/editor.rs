@@ -217,11 +217,10 @@ impl Editor {
             Key::Ctrl('d') => self.jump_down(),
             Key::Ctrl('u') => self.jump_up(),
             Key::Char(ch) => {
+                self.document.insert(&self.cursor_position, ch);
+                self.move_cursor(Key::Right);
                 if CONFIG_MANAGER.get_config().insert.autopairs {
                     self.document.insert_pair(&self.cursor_position, ch)
-                } else {
-                    self.document.insert(&self.cursor_position, ch);
-                    self.move_cursor(Key::Right);
                 }
             }
             Key::Delete => self.document.delete(&self.cursor_position),

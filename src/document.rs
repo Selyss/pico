@@ -50,15 +50,9 @@ impl Document {
 
     pub fn insert_pair(&mut self, at: &Position, pair: char) {
         match pair {
-            '(' => {
-                self.insert(at, '(');
-                self.insert(at, ')');
-            }
-            '{' => {
-                self.insert(at, '{');
-                self.insert(at, '}');
-            }
-            _ => panic!("Invalid pair"),
+            '(' => self.insert(at, ')'),
+            '{' => self.insert(at, '}'),
+            _ => (),
         }
     }
 
