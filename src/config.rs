@@ -1,17 +1,22 @@
-use anyhow::{anyhow, Context, Result};
 use serde::Deserialize;
-use std::path::PathBuf;
-use std::{env, fs};
-use toml::Table;
+use std::fs;
+use termion::color;
 
-// TODO: make config fields better
-
+// TODO: add more fields for ui
 #[derive(Debug, Deserialize)]
 pub struct EditorConfig {
     #[allow(dead_code)]
     pub insert: Insert,
     pub additional_quit_amount: u8,
+    pub colors: Colors,
 }
+
+#[derive(Debug, Deserialize)]
+pub struct Colors {
+    pub status_fg_color: Option<color::Rgb>,
+    pub status_bg_color: Option<color::Rgb>,
+}
+
 #[derive(Debug, Deserialize)]
 pub struct Insert {
     pub autopairs: bool,
@@ -29,12 +34,17 @@ impl EditorConfig {
                 space_expansion: Some(2),
             },
             additional_quit_amount: 3,
+            colors: Colors {
+                status_fg_color: Some(color::Rgb(63, 63, 63)),
+                status_bg_color: Some(color::Rgb(239, 239, 239)),
+            },
         }
     }
 
-    pub fn new(insert: Insert, quit_amount: u8) -> Self {
+    pub fn new(insert: Insert, colors: Colors, quit_amount: u8) -> Self {
         EditorConfig {
             insert,
+            colors,
             additional_quit_amount: quit_amount,
         }
     }
