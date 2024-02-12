@@ -94,7 +94,11 @@ impl Editor {
 
     fn refresh_screen(&mut self) -> Result<(), std::io::Error> {
         Terminal::cursor_hide();
+        // safe to unwrap, was already initialized in default config
+        let cursor_config = CONFIG_MANAGER.get_config().insert.cursor_style.clone();
+        let cursor = cursor_config.unwrap();
         Terminal::cursor_position(&Position::default());
+        Terminal::set_cursor_style(cursor.as_str());
         if self.should_quit {
             Terminal::clear_screen();
         } else {
@@ -401,24 +405,6 @@ impl Editor {
         let fg = u8_array_to_rgb(fg.unwrap());
         let bg = u8_array_to_rgb(bg.unwrap());
 
-        // safe to unwrap, was already initialized in default config
-        let cursor = &config.insert.cursor_style;
-        let cursor_config = cursor.clone().unwrap();
-
-        if cursor_config == "blinking_bar" {
-            cursor::BlinkingBar;
-        } else if cursor_config == "blinking_block" {
-            cursor::BlinkingBlock;
-        } else if cursor_config == "blinking_underline" {
-            cursor::BlinkingUnderline;
-        } else if cursor_config == "steady_bar" {
-            cursor::SteadyBar;
-        } else if cursor_config == "steady_block" {
-            cursor::SteadyBlock;
-        } else if cursor_config == "steady_underline" {
-            cursor::SteadyUnderline;
-        }
-
         Terminal::set_fg_color(fg);
         Terminal::set_bg_color(bg);
         println!("{}\r", status);
@@ -473,5 +459,6 @@ fn u8_array_to_rgb(array: [u8; 3]) -> color::Rgb {
 
 fn die(e: std::io::Error) {
     Terminal::clear_screen();
+    Terminal::reset_cursor_style();
     panic!("{}", e);
 }

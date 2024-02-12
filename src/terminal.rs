@@ -73,4 +73,23 @@ impl Terminal {
     pub fn reset_fg_color() {
         print!("{}", color::Fg(color::Reset));
     }
+
+    pub fn set_cursor_style(cursor: &str) {
+        if cursor == "blinking_bar" {
+            print!("{}", cursor::BlinkingBar);
+        } else if cursor == "blinking_block" {
+            print!("{}", cursor::BlinkingBlock);
+        } else if cursor == "blinking_underline" {
+            print!("{}", cursor::BlinkingUnderline);
+        } else if cursor == "steady_bar" {
+            print!("{}", cursor::SteadyBar);
+        } else if cursor == "steady_block" {
+            print!("{}", cursor::SteadyBlock);
+        } else if cursor == "steady_underline" {
+            print!("{}", cursor::SteadyUnderline);
+        }
+    }
+    pub fn reset_cursor_style() {
+        print!("{}", cursor::);
+    }
 }
