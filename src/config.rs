@@ -23,6 +23,7 @@ pub struct Insert {
     pub autopairs: bool,
     pub expand_tab: bool,
     pub space_expansion: Option<u8>,
+    pub cursor_style: Option<String>,
 }
 
 impl EditorConfig {
@@ -30,6 +31,7 @@ impl EditorConfig {
     pub fn default() -> Self {
         EditorConfig {
             insert: Insert {
+                cursor_style: Some(String::from("steady_block")),
                 autopairs: true,
                 expand_tab: true,
                 space_expansion: Some(2),
