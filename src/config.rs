@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::fs;
+use std::{fs, path::Path};
 
 // TODO: add more fields for ui
 #[derive(Debug, Deserialize)]
@@ -70,7 +70,8 @@ impl ConfigManager {
             }
         };
 
-        let config_path = user_home.join(".config/pico.toml");
+        let path = Path::new(&user_home);
+        let config_path = path.join(".config/pico.toml").display().to_string();
 
         let config = if let Ok(config_contents) = fs::read_to_string(config_path) {
             if let Ok(config) = toml::from_str::<EditorConfig>(&config_contents) {

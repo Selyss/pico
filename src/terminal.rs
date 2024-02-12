@@ -89,7 +89,7 @@ impl Terminal {
             print!("{}", cursor::SteadyUnderline);
         }
     }
-    pub fn reset_cursor_style() {
-        print!("{}", cursor::);
-    }
+    //     pub fn reset_cursor_style() {
+    //         print!("{}", cursor::);
+    //     }
 }

@@ -459,6 +459,6 @@ fn u8_array_to_rgb(array: [u8; 3]) -> color::Rgb {
 
 fn die(e: std::io::Error) {
     Terminal::clear_screen();
-    Terminal::reset_cursor_style();
+    // Terminal::reset_cursor_style();
     panic!("{}", e);
 }
