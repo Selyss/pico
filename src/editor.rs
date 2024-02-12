@@ -5,6 +5,7 @@ use crate::Terminal;
 use std::env;
 use std::time::{Duration, Instant};
 use termion::color;
+use termion::cursor;
 use termion::event::Key;
 
 const VERSION: &str = env!("CARGO_PKG_VERSION");
@@ -360,6 +361,8 @@ impl Editor {
         }
     }
     fn draw_status_bar(&self) {
+        let config = CONFIG_MANAGER.get_config();
+
         let mut status;
         let width = self.terminal.size().width as usize;
         let modified_indicator = if self.document.is_dirty() {
@@ -391,12 +394,30 @@ impl Editor {
         status.push_str(&" ".repeat(width.saturating_sub(len)));
         status = format!("{}{}", status, line_indicator);
         status.truncate(width);
-        let fg = CONFIG_MANAGER.get_config().colors.status_fg_color;
-        let bg = CONFIG_MANAGER.get_config().colors.status_bg_color;
+        let fg = config.colors.status_fg_color;
+        let bg = config.colors.status_bg_color;
 
         // HACK: shouldnt unwrap here.
         let fg = u8_array_to_rgb(fg.unwrap());
         let bg = u8_array_to_rgb(bg.unwrap());
+
+        // safe to unwrap, was already initialized in default config
+        let cursor = &config.insert.cursor_style;
+        let cursor_config = cursor.clone().unwrap();
+
+        if cursor_config == "blinking_bar" {
+            cursor::BlinkingBar;
+        } else if cursor_config == "blinking_block" {
+            cursor::BlinkingBlock;
+        } else if cursor_config == "blinking_underline" {
+            cursor::BlinkingUnderline;
+        } else if cursor_config == "steady_bar" {
+            cursor::SteadyBar;
+        } else if cursor_config == "steady_block" {
+            cursor::SteadyBlock;
+        } else if cursor_config == "steady_underline" {
+            cursor::SteadyUnderline;
+        }
 
         Terminal::set_fg_color(fg);
         Terminal::set_bg_color(bg);

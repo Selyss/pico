@@ -1,6 +1,7 @@
 use crate::Position;
 use std::io::{self, stdout, Write};
 use termion::color;
+use termion::cursor;
 use termion::event::Key;
 use termion::input::TermRead;
 use termion::raw::{IntoRawMode, RawTerminal};
